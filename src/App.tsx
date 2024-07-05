@@ -1,35 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import React, { Component } from 'react';
 import './App.css'
+import Search from './components/Search'
+import Results from './components/Results';
+import { Character } from './models';
+import ErrorBoundary from './components/ErrorBoundary';
 
-function App() {
-  const [count, setCount] = useState(0)
+class App extends Component {
+  state = {
+    searchResults: [],
+    isLoading: false,
+  };
 
+  updateSearchResults = (results: Character[]) => {
+    this.setState({ searchResults: results, isLoading: false });
+  };
+
+  handleLoading = (isLoading: boolean) => {
+    this.setState({ isLoading });
+  };
+  render() {
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+    <ErrorBoundary>
+          <Search
+            renderResults={this.updateSearchResults}
+            setLoading={this.handleLoading}
+          />
+          <Results
+            results={this.state.searchResults}
+            isLoading={this.state.isLoading}
+          />
+          </ErrorBoundary>
+    </div>
+    
   )
 }
-
+}
 export default App
