@@ -1,4 +1,5 @@
-import React, { Component, ReactNode, ErrorInfo } from 'react';
+import { Component, ReactNode } from 'react';
+import errorImg from '../assets/error.png';
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -14,19 +15,19 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(): ErrorBoundaryState {
+  static getDerivedStateFromError() {
     return { hasError: true };
   }
 
-  componentDidCatch(error: Error, info: ErrorInfo) {
-    console.error("ErrorBoundary caught an error", error, info);
-  }
-
-  render() {
+  render(): ReactNode {
     if (this.state.hasError) {
-      return <h1>Something went wrong...</h1>;
+      return (
+        <div className="error-boundary">
+          <h1>Something went wrong... Refresh this page</h1>
+          <img className="image" src={errorImg} alt="error" />
+        </div>
+      );
     }
-
     return this.props.children;
   }
 }
