@@ -5,7 +5,6 @@ import Results from './components/Results';
 import { Character } from './models';
 import ErrorBoundary from './components/ErrorBoundary';
 
-
 class App extends Component {
   state = {
     searchResults: [],
