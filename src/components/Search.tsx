@@ -5,10 +5,9 @@ import ErrorButton from './ErrorButton';
 
 interface SearchProps {
   renderResults: (results: Character[]) => void;
-  setLoading: (isLoading: boolean) => void;
 }
 
-const Search: React.FC<SearchProps> = ({ renderResults, setLoading }) => {
+const Search: React.FC<SearchProps> = ({ renderResults }) => {
   const [searchCard, setSearchCard] = useState<string>(localStorage.getItem('searchTerm') || '');
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -31,14 +30,14 @@ const Search: React.FC<SearchProps> = ({ renderResults, setLoading }) => {
     }
 
     setIsLoading(false);
-  }, [searchCard, setLoading, renderResults]);
+  }, [searchCard, setIsLoading, renderResults]);
 
   useEffect(() => {
     if (isLoading) {
       fetchData();
     }
     
-  }, [fetchData]);
+  }, [isLoading,fetchData]);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchCard(event.target.value.trim());

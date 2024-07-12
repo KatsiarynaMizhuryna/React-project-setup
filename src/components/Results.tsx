@@ -1,4 +1,3 @@
-import React, { Component } from 'react';
 import CharacterInfo from './CharacterInfo';
 import { Character } from '../models';
 import NotFound from './NotFound';
