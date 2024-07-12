@@ -8,14 +8,11 @@ interface ResultsProps {
   isLoading: boolean;
 }
 
-class Results extends Component<ResultsProps> {
-  render() {
-    const { results, isLoading } = this.props;
-    if (isLoading) {
-      return <p className="loading">Loading...</p>;
-    }
-
-    return results ? (
+const Results: React.FC<ResultsProps> = ({ results, isLoading }) => {
+  if (isLoading) {
+    return <p className="loading">Loading...</p>;
+  }
+        return results ? (
       <div className="results">
         {results.map((character, index) => (
           <div key={index} className="card">
@@ -29,6 +26,6 @@ class Results extends Component<ResultsProps> {
       </section>
     );
   }
-}
+
 
 export default Results;

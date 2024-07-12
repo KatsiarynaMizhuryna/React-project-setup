@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Component } from 'react';
+import React, { useState, useEffect, useCallback, ChangeEvent } from 'react';
 import { Character } from '../models';
 import logo from '../assets/rick-and-morty.png';
 import ErrorButton from './ErrorButton';
@@ -8,70 +8,63 @@ interface SearchProps {
   setLoading: (isLoading: boolean) => void;
 }
 
-interface SearchState {
-  searchCard: string;
-  isLoading: boolean;
-}
+const Search: React.FC<SearchProps> = ({ renderResults, setLoading }) => {
+  const [searchCard, setSearchCard] = useState<string>(localStorage.getItem('searchTerm') || '');
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-class Search extends Component<SearchProps, SearchState> {
-  constructor(props: SearchProps) {
-    super(props);
-    this.state = {
-      searchCard: localStorage.getItem('searchTerm') || '',
-      isLoading: false,
-    };
-  }
-
-  componentDidMount() {
-    this.fetchData();
-  }
-  fetchData = async () => {
-    this.props.setLoading(true);
-    const trimmedSearchItem = this.state.searchCard.trim();
+  const fetchData = useCallback(async () => {
+    setIsLoading(true);
+    const trimmedSearchItem = searchCard.trim();
     let apiUrl = `https://rickandmortyapi.com/api/character/`;
 
     if (trimmedSearchItem) {
       apiUrl += `?name=${trimmedSearchItem}`;
     }
+
     try {
       const response = await fetch(apiUrl);
       const data = await response.json();
-      this.props.renderResults(data.results);
+      renderResults(data.results);
       localStorage.setItem('searchTerm', trimmedSearchItem);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
 
-    this.props.setLoading(false);
+    setIsLoading(false);
+  }, [searchCard, setLoading, renderResults]);
+
+  useEffect(() => {
+    if (isLoading) {
+      fetchData();
+    }
+    
+  }, [fetchData]);
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchCard(event.target.value.trim());
   };
 
-  handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    this.setState({ searchCard: event.target.value });
-  };
-
-  render() {
-    return (
-      <div className="search-bar">
-        <img src={logo} alt="rick-and-morty logo" width={150} />
-        <ErrorButton />
-        <div>
-          <input
-            type="text"
-            placeholder="Search character..."
-            value={this.state.searchCard}
-            onChange={this.handleInputChange}
-          />
-          <button
-            className="search-bar-button"
-            onClick={this.fetchData}
-            disabled={this.state.isLoading}
-          >
-            Search
-          </button>
-        </div>
+  return (
+    <div className="search-bar">
+      <img src={logo} alt="rick-and-morty logo" width={150} />
+      <ErrorButton />
+      <div>
+        <input
+          type="text"
+          placeholder="Search character..."
+          value={searchCard}
+          onChange={handleInputChange}
+        />
+        <button
+          className="search-bar-button"
+          onClick={fetchData}
+          disabled={isLoading}
+        >
+          Search
+        </button>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default Search;
