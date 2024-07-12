@@ -2,13 +2,14 @@ import React, { useState, useEffect, useCallback, ChangeEvent } from 'react';
 import { Character } from '../models';
 import logo from '../assets/rick-and-morty.png';
 import ErrorButton from './ErrorButton';
+import useSearchQuery from '../hooks/useSearchQuery';
 
 interface SearchProps {
   renderResults: (results: Character[]) => void;
 }
 
 const Search: React.FC<SearchProps> = ({ renderResults }) => {
-  const [searchCard, setSearchCard] = useState<string>(localStorage.getItem('searchTerm') || '');
+  const [searchCard, setSearchCard] = useSearchQuery('searchTerm');
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const fetchData = useCallback(async () => {
