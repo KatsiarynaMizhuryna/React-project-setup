@@ -1,0 +1,25 @@
+.detailes_container {
+  width: 500px;
+  height: 400px;
+  background-color: beige;
+}
+
+.content {
+  display: flex;
+}
+
+.results {
+  flex: 1;
+  cursor: pointer;
+}
+
+.details_section {
+  flex: 1;
+  border-left: 1px solid #ddd;
+  padding: 1rem;
+  width: 300px;
+}
+
+.loading {
+  text-align: center;
+}
