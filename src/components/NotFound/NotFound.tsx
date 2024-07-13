@@ -1,4 +1,4 @@
-import notFound from '../assets/not-found.png';
+import notFound from '../../assets/not-found.png';
 
 const NotFound = () => {
   return (
@@ -7,7 +7,6 @@ const NotFound = () => {
       <img className="image" src={notFound} alt="not-found" />
     </div>
   );
-}
-
+};
 
 export default NotFound;

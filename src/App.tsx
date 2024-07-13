@@ -1,38 +1,33 @@
-import { Component } from 'react';
+import { useCallback, useState } from 'react';
 import './App.css';
-import Search from './components/Search';
-import Results from './components/Results';
+import Search from './components/Search/Search';
+import Results from './components/Results/Results';
 import { Character } from './models';
-import ErrorBoundary from './components/ErrorBoundary';
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from 'react-router-dom';
+import MainPage from './pages/MainPage/MainPage';
+import CharacterDetails from './components/CharacterDetails/CharacterDetails';
+import DetailsPage from './pages/DetailsPage/DetailsPage';
+import Layout from './layout/Layout';
 
-class App extends Component {
-  state = {
-    searchResults: [],
-    isLoading: false,
-  };
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<Layout />}>
+      <Route path="/" element={<MainPage />}>
+        <Route path="character/:id" element={<DetailsPage />} />
+      </Route>
+      {/* <Route path="*" element={<ErrorP />} /> */}
+    </Route>
+  )
+);
 
-  updateSearchResults = (results: Character[]) => {
-    this.setState({ searchResults: results, isLoading: false });
-  };
+const App: React.FC = () => {
+  return <RouterProvider router={router} />;
+};
 
-  handleLoading = (isLoading: boolean) => {
-    this.setState({ isLoading });
-  };
-  render() {
-    return (
-      <div>
-        <ErrorBoundary>
-          <Search
-            renderResults={this.updateSearchResults}
-            setLoading={this.handleLoading}
-          />
-          <Results
-            results={this.state.searchResults}
-            isLoading={this.state.isLoading}
-          />
-        </ErrorBoundary>
-      </div>
-    );
-  }
-}
 export default App;

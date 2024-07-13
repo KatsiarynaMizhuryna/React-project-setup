@@ -1,5 +1,5 @@
 import { Component, ReactNode } from 'react';
-import errorImg from '../assets/error.png';
+import errorImg from '../../assets/error.png';
 
 interface ErrorBoundaryState {
   hasError: boolean;
