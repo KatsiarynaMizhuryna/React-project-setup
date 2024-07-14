@@ -2,15 +2,9 @@ import CharacterInfo from '../CharacterCard/CharacterCard';
 import { Character } from '../../models';
 import NotFound from '../NotFound/NotFound';
 import Pagination from '../Pagination/Pagination';
-import {
-  Link,
-  Outlet,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import DetailsPage from '../../pages/DetailsPage/DetailsPage';
+
 import styles from './Results.module.css';
 
 interface ResultsProps {
@@ -29,9 +23,6 @@ const Results: React.FC<ResultsProps> = ({
   onPageChange,
 }) => {
   const [showDetails, setShowDetails] = useState<boolean>(false);
-  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
-    null
-  );
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -49,17 +40,14 @@ const Results: React.FC<ResultsProps> = ({
   };
   const closeDetails = () => {
     if (showDetails) {
-      setSelectedCharacter(null);
       setShowDetails(false);
       navigate('/');
     }
   };
 
-  if (isLoading) {
-    return <p className={styles.loading}>Loading...</p>;
-  }
   return results ? (
     <div className={styles.results_wrapper}>
+      {isLoading && <p className={styles.loading}>Loading...</p>}
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
