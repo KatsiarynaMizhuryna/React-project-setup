@@ -14,10 +14,10 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true
+    "noEmit": true,
+    "baseUrl": "."
   },
 
-  "baseUrl": ".",
   "paths": {
     "@app/*": ["src/*"]
   },
