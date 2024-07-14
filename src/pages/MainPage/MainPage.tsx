@@ -1,6 +1,5 @@
 import { useCallback, useState } from 'react';
 import { Character } from '../../models';
-import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 import Search from '../../components/Search/Search';
 import Results from '../../components/Results/Results';
 import { useSearchParams } from 'react-router-dom';
@@ -35,23 +34,21 @@ const MainPage: React.FC = () => {
 
   return (
     <div>
-      <ErrorBoundary>
-        <Search
-          renderResults={updateSearchResults}
-          updateTotalPages={updateTotalPages}
-          handleLoading={handleLoading}
-          isLoading={isLoading}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
-        <Results
-          results={searchResults}
-          isLoading={isLoading}
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
-      </ErrorBoundary>
+      <Search
+        renderResults={updateSearchResults}
+        updateTotalPages={updateTotalPages}
+        handleLoading={handleLoading}
+        isLoading={isLoading}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
+      <Results
+        results={searchResults}
+        isLoading={isLoading}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 };

@@ -1,9 +1,4 @@
-import { useCallback, useState } from 'react';
 import './App.css';
-import Search from './components/Search/Search';
-import Results from './components/Results/Results';
-import { Character } from './models';
-import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -11,9 +6,9 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import MainPage from './pages/MainPage/MainPage';
-import CharacterDetails from './components/CharacterDetails/CharacterDetails';
 import DetailsPage from './pages/DetailsPage/DetailsPage';
 import Layout from './layout/Layout';
+import ErrorPage from './pages/ErrorPage/ErrorPage';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -21,7 +16,6 @@ const router = createBrowserRouter(
       <Route path="/" element={<MainPage />}>
         <Route path="character/:id" element={<DetailsPage />} />
       </Route>
-      {/* <Route path="*" element={<ErrorP />} /> */}
     </Route>
   )
 );

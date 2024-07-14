@@ -3,6 +3,7 @@ import { Character } from '../../models';
 import NotFound from '../NotFound/NotFound';
 import Pagination from '../Pagination/Pagination';
 import {
+  Link,
   Outlet,
   useLocation,
   useNavigate,
@@ -72,7 +73,9 @@ const Results: React.FC<ResultsProps> = ({
               className="card"
               onClick={() => handleCharacterClick(character)}
             >
-              <CharacterInfo key={index} character={character} />
+              <Link to={`/character/${character.id}`}>
+                <CharacterInfo key={index} character={character} />
+              </Link>
             </div>
           ))}
         </div>

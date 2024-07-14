@@ -16,7 +16,13 @@
     "isolatedModules": true,
     "noEmit": true
   },
-  "include": ["src"],
+
+  "baseUrl": ".",
+  "paths": {
+    "@app/*": ["src/*"]
+  },
+
+  "include": ["src", "jest.config.ts"],
   "files": [],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
