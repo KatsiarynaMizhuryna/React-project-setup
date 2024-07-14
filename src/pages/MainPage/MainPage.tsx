@@ -3,6 +3,7 @@ import { Character } from '../../models';
 import Search from '../../components/Search/Search';
 import Results from '../../components/Results/Results';
 import { useSearchParams } from 'react-router-dom';
+import styles from './MainPage.module.css';
 
 const MainPage: React.FC = () => {
   const [searchResults, setSearchResults] = useState<Character[]>([]);
@@ -33,7 +34,7 @@ const MainPage: React.FC = () => {
   }, []);
 
   return (
-    <div>
+    <div className={styles.main_page_container}>
       <Search
         renderResults={updateSearchResults}
         updateTotalPages={updateTotalPages}
