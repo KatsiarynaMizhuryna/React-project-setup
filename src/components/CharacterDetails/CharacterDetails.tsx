@@ -1,4 +1,5 @@
 import { Character } from '../../models';
+import styles from './CharacterDetails.module.css';
 
 interface CharacterDetailsProps {
   character: Character;
@@ -6,13 +7,13 @@ interface CharacterDetailsProps {
 
 const CharacterDetails: React.FC<CharacterDetailsProps> = ({ character }) => {
   return (
-    <div className="character-card">
+    <div className={styles.character_card}>
       <img
         src={character.image}
         alt={character.name}
-        className="character-image"
+        className={styles.character_image}
       />
-      <div className="character-info">
+      <div className={styles.character_info}>
         <h2>
           <strong>Name: </strong>
           {character.name}

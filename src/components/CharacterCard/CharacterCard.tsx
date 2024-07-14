@@ -1,5 +1,6 @@
 import React from 'react';
 import { Character } from '../../models';
+import styles from './CharacterCard.module.css';
 
 interface CharacterCardProps {
   character: Character;
@@ -7,13 +8,13 @@ interface CharacterCardProps {
 
 const CharacterInfo: React.FC<CharacterCardProps> = ({ character }) => {
   return (
-    <div className="character-card">
+    <div className={styles.character_card}>
       <img
         src={character.image}
         alt={character.name}
-        className="character-image"
+        className={styles.character_image}
       />
-      <div className="character-info">
+      <div className={styles.character_info}>
         <h2>{character.name}</h2>
       </div>
     </div>

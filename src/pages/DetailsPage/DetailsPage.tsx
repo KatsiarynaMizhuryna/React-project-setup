@@ -44,7 +44,7 @@ const DetailsPage = () => {
   return (
     <div className={styles.details_section}>
       <button onClick={closeDetails}>Close</button>
-      {isLoading && <p className="loading">Loading...</p>}
+      {isLoading && <p className={styles.loading}>Loading...</p>}
       {notFound && <NotFound />}
       {details && <CharacterDetails character={details} />}
     </div>

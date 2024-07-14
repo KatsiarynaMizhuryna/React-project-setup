@@ -56,7 +56,7 @@ const Results: React.FC<ResultsProps> = ({
   };
 
   if (isLoading) {
-    return <p className="loading">Loading...</p>;
+    return <p className={styles.loading}>Loading...</p>;
   }
   return results ? (
     <div className={styles.results_wrapper}>
@@ -68,11 +68,7 @@ const Results: React.FC<ResultsProps> = ({
       <div className={styles.results_block}>
         <div className={styles.results_section} onClick={closeDetails}>
           {results.map((character, index) => (
-            <div
-              key={index}
-              className="card"
-              onClick={() => handleCharacterClick(character)}
-            >
+            <div key={index} onClick={() => handleCharacterClick(character)}>
               <Link to={`/character/${character.id}`}>
                 <CharacterInfo key={index} character={character} />
               </Link>
@@ -85,7 +81,7 @@ const Results: React.FC<ResultsProps> = ({
       </div>
     </div>
   ) : (
-    <section className="card">
+    <section className={styles.card}>
       <NotFound />
     </section>
   );

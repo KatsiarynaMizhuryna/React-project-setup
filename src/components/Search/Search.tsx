@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, ChangeEvent } from 'react';
 import { Character } from '../../models';
 import logo from '../../assets/rick-and-morty.png';
 import ErrorButton from '../ErrorButton/ErrorButton';
-import useSearchQuery from '../../hooks/useSearchQuery';
+import styles from './Search.module.css';
 
 interface SearchProps {
   renderResults: (results: Character[]) => void;
@@ -72,7 +72,7 @@ const Search: React.FC<SearchProps> = ({
   };
 
   return (
-    <div className="search-bar">
+    <div className={styles.search_bar}>
       <img src={logo} alt="rick-and-morty logo" width={150} />
       <ErrorButton />
       <div>
@@ -83,7 +83,7 @@ const Search: React.FC<SearchProps> = ({
           onChange={handleInputChange}
         />
         <button
-          className="search-bar-button"
+          className={styles.search_bar_button}
           onClick={handleSearch}
           disabled={isLoading}
         >

@@ -15,6 +15,7 @@
 
 .details_section {
   flex: 1;
+  background-color: rgba(255, 255, 255, 0.9);
   border-left: 1px solid #ddd;
   padding: 1rem;
   width: 300px;

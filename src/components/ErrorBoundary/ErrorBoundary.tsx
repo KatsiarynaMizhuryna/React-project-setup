@@ -1,5 +1,6 @@
 import { Component, ReactNode } from 'react';
 import errorImg from '../../assets/error.png';
+import styles from './ErrorBoundary.module.css';
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -22,9 +23,13 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   render(): ReactNode {
     if (this.state.hasError) {
       return (
-        <div className="error-boundary">
+        <div className={styles.error_boundary}>
           <h1>Something went wrong... Refresh this page</h1>
-          <img className="image" src={errorImg} alt="error" />
+          <img
+            className={styles.error_boundary_image}
+            src={errorImg}
+            alt="error"
+          />
         </div>
       );
     }

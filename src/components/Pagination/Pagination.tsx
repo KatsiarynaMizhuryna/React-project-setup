@@ -23,7 +23,7 @@ const Pagination: React.FC<PaginationProps> = ({
   };
 
   return (
-    <div className="paginationWrapper">
+    <div className={styles.paginationWrapper}>
       <button onClick={() => goToPage(1)} disabled={page === 1}>
         {'<<'}
       </button>
@@ -31,7 +31,7 @@ const Pagination: React.FC<PaginationProps> = ({
         {'<'}
       </button>
       <span>
-        {page} из {totalPages}
+        {page} of {totalPages}
       </span>
       <button onClick={() => goToPage(page + 1)} disabled={page === totalPages}>
         {'>'}
