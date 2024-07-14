@@ -67,10 +67,13 @@ const Results: React.FC<ResultsProps> = ({
       />
       <div className={styles.results_block}>
         <div className={styles.results_section} onClick={closeDetails}>
-          {results.map((character, index) => (
-            <div key={index} onClick={() => handleCharacterClick(character)}>
+          {results.map((character) => (
+            <div
+              key={character.id}
+              onClick={() => handleCharacterClick(character)}
+            >
               <Link to={`/character/${character.id}`}>
-                <CharacterInfo key={index} character={character} />
+                <CharacterInfo key={character.id} character={character} />
               </Link>
             </div>
           ))}
