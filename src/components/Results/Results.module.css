@@ -1,0 +1,27 @@
+.results_wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.results_block {
+  display: flex;
+}
+
+.details_section {
+  background-color: rgb(216, 239, 239);
+}
+
+.results_section {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card {
+  padding: 2em;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1.5rem;
+  margin: 2rem;
+}
