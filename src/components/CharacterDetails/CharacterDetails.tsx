@@ -3,11 +3,16 @@ import styles from './CharacterDetails.module.css';
 
 interface CharacterDetailsProps {
   character: Character;
+  isLoading: boolean;
 }
 
-const CharacterDetails: React.FC<CharacterDetailsProps> = ({ character }) => {
+const CharacterDetails: React.FC<CharacterDetailsProps> = ({
+  character,
+  isLoading,
+}) => {
   return (
     <div className={styles.character_card}>
+      {isLoading && <p className={styles.loading}>Loading...</p>}
       <img
         src={character.image}
         alt={character.name}

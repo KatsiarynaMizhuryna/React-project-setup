@@ -37,3 +37,11 @@
 .character_info a:hover {
   text-decoration: underline;
 }
+
+.loading {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  color: wheat;
+  font-weight: bold;
+}
