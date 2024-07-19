@@ -1,10 +1,12 @@
 .search_bar {
   padding: 0 30px;
   height: 150px;
-  background-color: #313030;
+  background-color: #77776e;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  width: 100vw;
+  gap: 30px;
 }
 
 .search_bar input {

@@ -22,3 +22,13 @@ export interface Character {
   url: string;
   created: string;
 }
+
+export interface CharacterResponse<T> {
+  info: {
+    count: number;
+    pages: number;
+    next: string | null;
+    prev: string | null;
+  };
+  results: T[];
+}

@@ -2,7 +2,6 @@
   "compilerOptions": {
     "target": "ESNext",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "jsx": "react-jsx",
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -14,15 +13,10 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "noImplicitAny": true,
     "noEmit": true,
-    "baseUrl": "."
+    "jsx": "react-jsx"
   },
-
-  "paths": {
-    "@app/*": ["src/*"]
-  },
-
   "include": ["src", "jest.config.ts"],
-  "files": [],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Character } from '../../models';
 import styles from './Pagination.module.css';
-import { useSearchParams } from 'react-router-dom';
 
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
+  isLoading: boolean;
 }
 
 const Pagination: React.FC<PaginationProps> = ({
@@ -15,6 +14,10 @@ const Pagination: React.FC<PaginationProps> = ({
   onPageChange,
 }) => {
   const [page, setPage] = useState(currentPage);
+
+  useEffect(() => {
+    setPage(currentPage);
+  }, [currentPage]);
 
   const goToPage = (newPage: number) => {
     if (newPage < 1 || newPage > totalPages) return;

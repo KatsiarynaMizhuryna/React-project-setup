@@ -1,75 +1,25 @@
-import React, { useState, useEffect, useCallback, ChangeEvent } from 'react';
-import { Character } from '../../models';
+import React, { useState, useEffect } from 'react';
 import logo from '../../assets/rick-and-morty.png';
 import ErrorButton from '../ErrorButton/ErrorButton';
 import styles from './Search.module.css';
 
 interface SearchProps {
-  renderResults: (results: Character[]) => void;
-  updateTotalPages: (totalPages: number) => void;
-  handleLoading: (isLoading: boolean) => void;
-  isLoading: boolean;
-  currentPage: number;
-  setCurrentPage: (page: number) => void;
+  onSearch: (searchTerm: string) => void;
+  initialSearch: string;
 }
 
-const Search: React.FC<SearchProps> = ({
-  renderResults,
-  updateTotalPages,
-  handleLoading,
-  isLoading,
-  currentPage,
-  setCurrentPage,
-}) => {
-  const [searchTerm, setSearchTerm] = useState(
-    () => localStorage.getItem('searchTerm') || ''
-  );
-  const [submittedSearchTerm, setSubmittedSearchTerm] = useState(searchTerm);
-
-  const fetchData = useCallback(
-    async (page: number, query: string) => {
-      handleLoading(true);
-      const trimmedSearchItem = query.trim();
-      let apiUrl = `https://rickandmortyapi.com/api/character/?page=${page}`;
-
-      if (trimmedSearchItem) {
-        apiUrl += `&name=${trimmedSearchItem}`;
-      }
-
-      try {
-        const response = await fetch(apiUrl);
-        const data = await response.json();
-        if (data.results) {
-          renderResults(data.results);
-          updateTotalPages(data.info.pages);
-          localStorage.setItem('searchTerm', trimmedSearchItem);
-        } else {
-          renderResults([]);
-          updateTotalPages(1);
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        renderResults([]);
-        updateTotalPages(1);
-      } finally {
-        handleLoading(false);
-      }
-    },
-    [handleLoading, renderResults, updateTotalPages]
-  );
-
-  useEffect(() => {
-    fetchData(currentPage, submittedSearchTerm);
-  }, [currentPage, submittedSearchTerm, fetchData]);
-
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
-  };
+const Search: React.FC<SearchProps> = ({ onSearch, initialSearch }) => {
+  const [search, setSearch] = useState(initialSearch);
 
   const handleSearch = () => {
-    setSubmittedSearchTerm(searchTerm);
-    setCurrentPage(1);
+    const trimmedSearch = search.trim();
+    localStorage.setItem('searchTerm', trimmedSearch);
+    onSearch(trimmedSearch);
   };
+
+  useEffect(() => {
+    setSearch(initialSearch);
+  }, [initialSearch]);
 
   return (
     <div className={styles.search_bar}>
@@ -78,17 +28,11 @@ const Search: React.FC<SearchProps> = ({
       <div>
         <input
           type="text"
+          value={search}
           placeholder="Search character..."
-          value={searchTerm}
-          onChange={handleInputChange}
+          onChange={(e) => setSearch(e.target.value)}
         />
-        <button
-          className={styles.search_bar_button}
-          onClick={handleSearch}
-          disabled={isLoading}
-        >
-          Search
-        </button>
+        <button onClick={handleSearch}>Search</button>
       </div>
     </div>
   );

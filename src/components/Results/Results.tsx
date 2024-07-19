@@ -1,80 +1,69 @@
-import CharacterInfo from '../CharacterCard/CharacterCard';
-import { Character } from '../../models';
+import CharacterCard from '../CharacterCard/CharacterCard';
 import NotFound from '../NotFound/NotFound';
 import Pagination from '../Pagination/Pagination';
-import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import styles from './Results.module.css';
+import {
+  useGetAllcharactersQuery,
+  useLazyGetCharactersByNameQuery,
+} from '../../store/api/api';
 
 interface ResultsProps {
-  results: Character[];
-  isLoading: boolean;
-  currentPage: number;
-  totalPages: number;
-  onPageChange: (page: number) => void;
+  page: number;
+  searchTerm: string;
+  onPageChange: (newPage: number) => void;
 }
 
 const Results: React.FC<ResultsProps> = ({
-  results,
-  isLoading,
-  currentPage,
-  totalPages,
+  page,
+  searchTerm,
   onPageChange,
 }) => {
-  const [showDetails, setShowDetails] = useState<boolean>(false);
-  const navigate = useNavigate();
-  const location = useLocation();
+  const { isLoading, isError, data, isFetching } =
+    useGetAllcharactersQuery(page);
+  const [
+    fetchData,
+    {
+      data: characterByName,
+      isLoading: isCharacterLoading,
+      isError: isCharacterError,
+    },
+  ] = useLazyGetCharactersByNameQuery();
 
   useEffect(() => {
-    if (location.pathname.includes('/character/')) {
-      setShowDetails(true);
-    } else {
-      setShowDetails(false);
+    if (searchTerm) {
+      fetchData(searchTerm);
     }
-  }, [location]);
+  }, [searchTerm]);
 
-  const handleCharacterClick = (character: Character) => {
-    setShowDetails(true);
-    navigate(`/character/${character.id}`);
-  };
-  const closeDetails = () => {
-    if (showDetails) {
-      setShowDetails(false);
-      navigate('/');
-    }
-  };
-
-  return results ? (
+  return (
     <div className={styles.results_wrapper}>
-      {isLoading && <p className={styles.loading}>Loading...</p>}
       <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
+        isLoading={isFetching}
+        currentPage={page}
+        totalPages={data?.info.pages || 1}
         onPageChange={onPageChange}
       />
       <div className={styles.results_block}>
-        <div className={styles.results_section} onClick={closeDetails}>
-          {results.map((character) => (
-            <div
-              key={character.id}
-              onClick={() => handleCharacterClick(character)}
-            >
-              <Link to={`/character/${character.id}`}>
-                <CharacterInfo key={character.id} character={character} />
-              </Link>
-            </div>
-          ))}
-        </div>
-        <div className={styles.details_section}>
-          <Outlet />
+        {isLoading && <p>Loading...</p>}
+        {isError && <p>Error fetching data.</p>}
+        <div className={styles.results_section}>
+          {!searchTerm &&
+            data?.results.map((character) => (
+              <CharacterCard key={character.id} character={character} />
+            ))}
         </div>
       </div>
+      <div className={styles.results_block}>
+        {isCharacterLoading && <p>Loading characters by name...</p>}
+        {isCharacterError && <NotFound />}
+        {searchTerm &&
+          characterByName?.results.map((character) => (
+            <CharacterCard key={character.id} character={character} />
+          ))}
+      </div>
     </div>
-  ) : (
-    <section className={styles.card}>
-      <NotFound />
-    </section>
   );
 };
 
