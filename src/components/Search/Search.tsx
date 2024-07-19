@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import logo from '../../assets/rick-and-morty.png';
 import ErrorButton from '../ErrorButton/ErrorButton';
 import styles from './Search.module.css';
+import { useTheme } from '../../switchTheme/ThemeContext';
+import ThemeSwitcher from '../../switchTheme/ThemeSwitcher';
 
 interface SearchProps {
   onSearch: (searchTerm: string) => void;
@@ -10,6 +12,11 @@ interface SearchProps {
 
 const Search: React.FC<SearchProps> = ({ onSearch, initialSearch }) => {
   const [search, setSearch] = useState(initialSearch);
+  const { theme } = useTheme();
+
+  useEffect(() => {
+    document.body.className = theme;
+  }, [theme]);
 
   const handleSearch = () => {
     const trimmedSearch = search.trim();
@@ -34,6 +41,7 @@ const Search: React.FC<SearchProps> = ({ onSearch, initialSearch }) => {
         />
         <button onClick={handleSearch}>Search</button>
       </div>
+      <ThemeSwitcher />
     </div>
   );
 };
