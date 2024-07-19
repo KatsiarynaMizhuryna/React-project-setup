@@ -17,7 +17,10 @@ const Flyout: React.FC = () => {
 
   const handleDownload = () => {
     const csvContent = selectedCards
-      .map((card) => `${card.name},${card.url},${card.gender},${card.location}`)
+      .map(
+        (card) =>
+          `${card.id},${card.name},${card.status},${card.species},${card.url},${card.origin.name},${card.origin.url},${card.location.name}`
+      )
       .join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     saveAs(blob, `${selectedCards.length}_cards.csv`);
