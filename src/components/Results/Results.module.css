@@ -5,8 +5,9 @@
 }
 
 .results_block {
+  width: 100vw;
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   justify-content: center;
 }
 

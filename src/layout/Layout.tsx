@@ -4,7 +4,9 @@ import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
 function Layout() {
   return (
     <ErrorBoundary>
-      <main></main>
+      <main>
+        <Outlet />
+      </main>
     </ErrorBoundary>
   );
 }

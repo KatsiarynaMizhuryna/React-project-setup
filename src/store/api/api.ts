@@ -5,7 +5,6 @@ export const API = createApi({
   reducerPath: 'rickandmortyapi.com',
   baseQuery: fetchBaseQuery({
     baseUrl: `https://rickandmortyapi.com/api`,
-
     fetchFn: (url: RequestInfo, options?: RequestInit): Promise<Response> =>
       fetch(url, options),
   }),

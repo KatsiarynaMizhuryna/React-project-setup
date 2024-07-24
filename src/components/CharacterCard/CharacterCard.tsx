@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Character } from '../../models';
 import styles from './CharacterCard.module.css';
 import { useActions } from '../../hooks/actions';
 import { RootState } from '../../store';
 import { UseAppSelector } from '../../hooks/redux';
+import { useDispatch } from 'react-redux';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import CharacterDetails from '../CharacterDetails/CharacterDetails';
 
 interface CharacterCardProps {
   character: Character;
@@ -14,19 +17,39 @@ const CharacterCard: React.FC<CharacterCardProps> = ({ character }) => {
   const selectedCards = UseAppSelector(
     (state: RootState) => state.selectedCard
   );
+  const [showDetails, setShowDetails] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname.includes('/character/')) {
+      setShowDetails(true);
+    } else {
+      setShowDetails(false);
+    }
+  }, [location]);
+
+  const handleCharacterClick = (character: Character) => {
+    console.log(character.id);
+    setShowDetails(true);
+    navigate(`/character/${character.id}`);
+  };
+  const closeDetails = () => {
+    if (showDetails) {
+      setShowDetails(false);
+      navigate('/');
+    }
+  };
+
   const isSelected = (id: number) =>
     selectedCards.selected.some((item) => item.id === id);
 
   const handleCheckboxChange = async () => {
     if (isSelected(character.id)) {
       await unselect(character.id);
-      console.log(selectedCards.selected);
     } else {
       await select(character);
-      console.log(character.id);
-      console.log(selectedCards.selected);
     }
-    console.log(isSelected);
   };
   return (
     <div className={styles.character_card}>
@@ -41,6 +64,7 @@ const CharacterCard: React.FC<CharacterCardProps> = ({ character }) => {
       <img
         src={character.image}
         alt={character.name}
+        onClick={() => handleCharacterClick(character)}
         className={styles.character_image}
       />
       <div className={styles.character_info}>

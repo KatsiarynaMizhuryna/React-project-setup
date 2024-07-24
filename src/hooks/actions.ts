@@ -1,6 +1,6 @@
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
-import { selectedCardsActions } from '../store/api/slice';
+import { selectedCardsActions } from '../store/api/selected_card.slice';
 
 const actions = { ...selectedCardsActions };
 
