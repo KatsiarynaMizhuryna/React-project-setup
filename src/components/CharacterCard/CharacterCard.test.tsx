@@ -1,14 +1,14 @@
 import React from 'react';
-import character from './mock_data';
+import character from '../../__ tests __/mock_data';
 import '@testing-library/jest-dom';
 import { act, render, screen, fireEvent } from '@testing-library/react';
-import { useActions } from '../hooks/actions';
-import { UseAppSelector } from '../hooks/redux';
-import CharacterCard from '../components/CharacterCard/CharacterCard';
+import { useActions } from '../../hooks/actions';
+import { UseAppSelector } from '../../hooks/redux';
+import CharacterCard from './CharacterCard';
 import { BrowserRouter } from 'react-router-dom';
 
-jest.mock('../hooks/actions');
-jest.mock('../hooks/redux');
+jest.mock('../../hooks/actions');
+jest.mock('../../hooks/redux');
 
 describe('CharacterCard', () => {
   const mockSelect = jest.fn();
