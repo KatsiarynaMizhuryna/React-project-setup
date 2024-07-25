@@ -1,14 +1,13 @@
 import CharacterCard from '../CharacterCard/CharacterCard';
 import NotFound from '../NotFound/NotFound';
 import Pagination from '../Pagination/Pagination';
-import { useEffect, useState } from 'react';
-
+import { useEffect } from 'react';
 import styles from './Results.module.css';
 import {
   useGetAllcharactersQuery,
   useLazyGetCharactersByNameQuery,
 } from '../../store/api/api';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
 interface ResultsProps {
   page: number;
@@ -21,8 +20,6 @@ const Results: React.FC<ResultsProps> = ({
   searchTerm,
   onPageChange,
 }) => {
-  // const [showDetails, setShowDetails] = useState<boolean>(false);
-  // const navigate = useNavigate();
   const { isLoading, isError, data, isFetching } =
     useGetAllcharactersQuery(page);
   const [
@@ -39,14 +36,6 @@ const Results: React.FC<ResultsProps> = ({
       fetchData(searchTerm);
     }
   }, [searchTerm]);
-
-  // const closeDetails = () => {
-  //   console.log('show');
-  //   if (showDetails) {
-  //     setShowDetails(false);
-  //     navigate('/');
-  //   }
-  // };
 
   return (
     <div className={styles.results_wrapper}>
