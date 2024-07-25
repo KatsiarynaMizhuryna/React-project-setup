@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1721921111483" clover="3.2.0">
-  <project timestamp="1721921111483" name="All files">
-    <metrics statements="161" coveredstatements="149" conditionals="27" coveredconditionals="21" methods="43" coveredmethods="35" elements="231" coveredelements="205" complexity="0" loc="161" ncloc="161" packages="14" files="15" classes="15"/>
+<coverage generated="1721924399550" clover="3.2.0">
+  <project timestamp="1721924399550" name="All files">
+    <metrics statements="171" coveredstatements="158" conditionals="28" coveredconditionals="21" methods="45" coveredmethods="37" elements="244" coveredelements="216" complexity="0" loc="171" ncloc="171" packages="14" files="16" classes="16"/>
     <package name="__ tests __">
       <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="mock_data.tsx" path="C:\Users\nhemg\Downloads\Repos\React-project-setup\src\__ tests __\mock_data.tsx">
@@ -228,7 +228,20 @@
       </file>
     </package>
     <package name="switchTheme">
-      <metrics statements="10" coveredstatements="9" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="1"/>
+      <metrics statements="20" coveredstatements="18" conditionals="3" coveredconditionals="0" methods="4" coveredmethods="3"/>
+      <file name="ThemeContext.tsx" path="C:\Users\nhemg\Downloads\Repos\React-project-setup\src\switchTheme\ThemeContext.tsx">
+        <metrics statements="10" coveredstatements="9" conditionals="1" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="3" type="stmt"/>
+        <line num="14" count="3" type="cond" truecount="0" falsecount="1"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="17" count="3" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="23" count="3" type="stmt"/>
+        <line num="25" count="3" type="stmt"/>
+      </file>
       <file name="ThemeSwitcher.tsx" path="C:\Users\nhemg\Downloads\Repos\React-project-setup\src\switchTheme\ThemeSwitcher.tsx">
         <metrics statements="10" coveredstatements="9" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="1"/>
         <line num="2" count="1" type="stmt"/>
