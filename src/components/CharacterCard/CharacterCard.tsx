@@ -4,9 +4,7 @@ import styles from './CharacterCard.module.css';
 import { useActions } from '../../hooks/actions';
 import { RootState } from '../../store';
 import { UseAppSelector } from '../../hooks/redux';
-import { useDispatch } from 'react-redux';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import CharacterDetails from '../CharacterDetails/CharacterDetails';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface CharacterCardProps {
   character: Character;
@@ -33,12 +31,6 @@ const CharacterCard: React.FC<CharacterCardProps> = ({ character }) => {
     console.log(character.id);
     setShowDetails(true);
     navigate(`/character/${character.id}`);
-  };
-  const closeDetails = () => {
-    if (showDetails) {
-      setShowDetails(false);
-      navigate('/');
-    }
   };
 
   const isSelected = (id: number) =>
