@@ -13,9 +13,6 @@ import {
   useGetAllcharactersQuery,
   useLazyGetCharactersByNameQuery,
 } from '../../store/api/api';
-import Pagination from '../Pagination/Pagination';
-import CharacterCard from '../CharacterCard/CharacterCard';
-import NotFound from '../NotFound/NotFound';
 
 jest.mock('../../store/api/api', () => ({
   useGetAllcharactersQuery: jest.fn(),
