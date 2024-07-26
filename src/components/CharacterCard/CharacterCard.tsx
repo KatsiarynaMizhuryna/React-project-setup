@@ -15,21 +15,21 @@ const CharacterCard: React.FC<CharacterCardProps> = ({ character }) => {
   const selectedCards = UseAppSelector(
     (state: RootState) => state.selectedCard
   );
-  const [showDetails, setShowDetails] = useState<boolean>(false);
+  let setShowDetails = false;
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
     if (location.pathname.includes('/character/')) {
-      setShowDetails(true);
+      setShowDetails = true;
     } else {
-      setShowDetails(false);
+      setShowDetails = false;
     }
   }, [location]);
 
   const handleCharacterClick = (character: Character) => {
     console.log(character.id);
-    setShowDetails(true);
+    setShowDetails = true;
     navigate(`/character/${character.id}`);
   };
 
