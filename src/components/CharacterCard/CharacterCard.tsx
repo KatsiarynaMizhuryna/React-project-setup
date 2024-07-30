@@ -48,6 +48,8 @@ const CharacterCard: React.FC<CharacterCardProps> = ({ character }) => {
       <Image
         src={character.image}
         alt={character.name}
+        width={300}
+        height={300}
         onClick={handleCharacterClick}
         className={styles.character_image}
       />

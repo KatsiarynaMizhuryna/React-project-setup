@@ -42,6 +42,8 @@ const CharacterDetails: React.FC<CharacterDetailsProps> = ({ characterId }) => {
         <button onClick={closeDetails}>Close</button>
         <Image
           src={character.image}
+          width={300}
+          height={300}
           alt={character.name}
           className={styles.character_image}
         />

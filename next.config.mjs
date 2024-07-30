@@ -3,6 +3,7 @@ const nextConfig = {
   distDir: './dist',
   images: {
     unoptimized: true,
+    domains: ['rickandmortyapi.com'],
   },
 };
 

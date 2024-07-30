@@ -8,6 +8,8 @@ const NotFound = () => {
       <h2>Nothing found... Try it once more!</h2>
       <Image
         className={styles.not_found_image}
+        width={300}
+        height={300}
         src={notFound}
         alt="not-found"
       />

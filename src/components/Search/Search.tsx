@@ -31,7 +31,7 @@ const Search: React.FC<SearchProps> = ({ onSearch, initialSearch }) => {
 
   return (
     <div className={styles.searchBar}>
-      <Image src={logo} alt="rick-and-morty logo" width={150} />
+      <Image src={logo} alt="rick-and-morty logo" width={150} height={150} />
       <ErrorButton />
       <div>
         <input
