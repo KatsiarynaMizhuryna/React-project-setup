@@ -1,14 +1,9 @@
-export default {
-  preset: 'ts-jest',
+const nextJest = require('next/jest');
+const createJestConfig = nextJest({
+  dir: './',
+});
+const customJestConfig = {
+  moduleDirectories: ['node_modules', '<rootDir>/'],
   testEnvironment: 'jest-environment-jsdom',
-  transform: {
-    '^.+\\.tsx?$': 'ts-jest',
-    // process `*.tsx` files with `ts-jest`
-  },
-  rootDir: 'src',
-  moduleNameMapper: {
-    '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/test/__ mocks __/fileMock.js',
-    '^@app/(.*)$': '<rootDir>/$1',
-    '\\.(css)$': 'identity-obj-proxy',
-  },
 };
+module.exports = createJestConfig(customJestConfig);

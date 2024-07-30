@@ -4,17 +4,22 @@ import '@testing-library/jest-dom';
 import { act, render, screen, fireEvent } from '@testing-library/react';
 import { useActions } from '../../hooks/actions';
 import { UseAppSelector } from '../../hooks/redux';
+import { useRouter } from 'next/router';
 import CharacterCard from './CharacterCard';
 import { BrowserRouter } from 'react-router-dom';
 
 jest.mock('../../hooks/actions');
 jest.mock('../../hooks/redux');
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}));
 
 describe('CharacterCard', () => {
   const mockSelect = jest.fn();
   const mockUnselect = jest.fn();
   const mockUseActions = useActions as jest.Mock;
   const mockUseAppSelector = UseAppSelector as jest.Mock;
+  const mockRouterPush = jest.fn();
 
   beforeEach(() => {
     mockUseActions.mockReturnValue({
@@ -22,6 +27,10 @@ describe('CharacterCard', () => {
       unselect: mockUnselect,
     });
     mockUseAppSelector.mockReturnValue({ selected: [] });
+    (useRouter as jest.Mock).mockReturnValue({
+      query: {},
+      push: mockRouterPush,
+    });
   });
 
   afterEach(() => {
@@ -96,5 +105,22 @@ describe('CharacterCard', () => {
 
     const checkbox = screen.getByRole('checkbox');
     expect(checkbox).not.toBeChecked();
+  });
+
+  test('navigates to character details on image click', () => {
+    render(
+      <BrowserRouter>
+        <CharacterCard character={character} />
+      </BrowserRouter>
+    );
+
+    const image = screen.getByAltText('Character 1');
+    fireEvent.click(image);
+
+    expect(mockRouterPush).toHaveBeenCalledWith(
+      `/?page=1&details=${character.id}`,
+      undefined,
+      { shallow: true }
+    );
   });
 });

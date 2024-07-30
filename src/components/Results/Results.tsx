@@ -7,7 +7,8 @@ import {
   useGetAllcharactersQuery,
   useLazyGetCharactersByNameQuery,
 } from '../../store/api/api';
-import { Outlet } from 'react-router-dom';
+import { useRouter } from 'next/router';
+import CharacterDetails from '../CharacterDetails/CharacterDetails';
 
 interface ResultsProps {
   page: number;
@@ -20,6 +21,7 @@ const Results: React.FC<ResultsProps> = ({
   searchTerm,
   onPageChange,
 }) => {
+  const router = useRouter();
   const { isLoading, isError, data, isFetching } =
     useGetAllcharactersQuery(page);
   const [
@@ -35,7 +37,14 @@ const Results: React.FC<ResultsProps> = ({
     if (searchTerm) {
       fetchData(searchTerm);
     }
-  }, [searchTerm]);
+  }, [fetchData, searchTerm]);
+
+  const handlePageChange = (newPage: number) => {
+    onPageChange(newPage);
+    router.push(`/?page=${newPage}`, undefined, { shallow: true });
+  };
+
+  const selectedCharacterId = router.query.details as string | undefined;
 
   return (
     <div className={styles.results_wrapper}>
@@ -43,7 +52,7 @@ const Results: React.FC<ResultsProps> = ({
         isLoading={isFetching}
         currentPage={page}
         totalPages={data?.info.pages || 1}
-        onPageChange={onPageChange}
+        onPageChange={handlePageChange}
       />
       <div className={styles.results_block}>
         {isLoading && <p>Loading...</p>}
@@ -54,9 +63,11 @@ const Results: React.FC<ResultsProps> = ({
               <CharacterCard key={character.id} character={character} />
             ))}
         </div>
-        <div className={styles.details_section}>
-          <Outlet />
-        </div>
+        {selectedCharacterId && (
+          <div className={styles.details_section}>
+            <CharacterDetails characterId={selectedCharacterId} />
+          </div>
+        )}
       </div>
       <div className={styles.results_block}>
         {isCharacterLoading && <p>Loading characters by name...</p>}

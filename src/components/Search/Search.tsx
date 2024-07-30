@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import logo from '../../assets/rick-and-morty.png';
+import Image from 'next/image';
+import logo from '../../../public/rick-and-morty.png';
 import ErrorButton from '../ErrorButton/ErrorButton';
 import styles from './Search.module.css';
-import { useTheme } from '../../switchTheme/ThemeContext';
-import ThemeSwitcher from '../../switchTheme/ThemeSwitcher';
+import { useTheme } from '../switchTheme/ThemeContext';
+import ThemeSwitcher from '../switchTheme/ThemeSwitcher';
 
 interface SearchProps {
   onSearch: (searchTerm: string) => void;
@@ -29,8 +30,8 @@ const Search: React.FC<SearchProps> = ({ onSearch, initialSearch }) => {
   }, [initialSearch]);
 
   return (
-    <div className={styles.search_bar}>
-      <img src={logo} alt="rick-and-morty logo" width={150} />
+    <div className={styles.searchBar}>
+      <Image src={logo} alt="rick-and-morty logo" width={150} />
       <ErrorButton />
       <div>
         <input
@@ -39,7 +40,9 @@ const Search: React.FC<SearchProps> = ({ onSearch, initialSearch }) => {
           placeholder="Search character..."
           onChange={(e) => setSearch(e.target.value)}
         />
-        <button onClick={handleSearch}>Search</button>
+        <button className={styles.searchBarBtn} onClick={handleSearch}>
+          Search
+        </button>
       </div>
       <ThemeSwitcher />
     </div>

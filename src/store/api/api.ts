@@ -14,7 +14,7 @@ export const API = createApi({
         url: `/character/?page=${page}`,
       }),
     }),
-    getCharacterById: build.query<Character[], string>({
+    getCharacterById: build.query<Character, string>({
       query: (id: string) => ({
         url: `/character/${id}`,
       }),

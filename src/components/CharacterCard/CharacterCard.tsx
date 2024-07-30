@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Character } from '../../models';
 import styles from './CharacterCard.module.css';
 import { useActions } from '../../hooks/actions';
 import { RootState } from '../../store';
 import { UseAppSelector } from '../../hooks/redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 interface CharacterCardProps {
   character: Character;
@@ -15,24 +16,15 @@ const CharacterCard: React.FC<CharacterCardProps> = ({ character }) => {
   const selectedCards = UseAppSelector(
     (state: RootState) => state.selectedCard
   );
-  let setShowDetails = false;
-  const navigate = useNavigate();
-  const location = useLocation();
+  const router = useRouter();
 
-  useEffect(() => {
-    if (location.pathname.includes('/character/')) {
-      setShowDetails = true;
-    } else {
-      setShowDetails = false;
-    }
-  }, [location]);
-
-  const handleCharacterClick = (character: Character) => {
-    console.log(character.id);
-    setShowDetails = true;
-    navigate(`/character/${character.id}`);
+  const handleCharacterClick = () => {
+    router.push(
+      `/?page=${router.query.page || 1}&details=${character.id}`,
+      undefined,
+      { shallow: true }
+    );
   };
-
   const isSelected = (id: number) =>
     selectedCards.selected.some((item) => item.id === id);
 
@@ -53,10 +45,10 @@ const CharacterCard: React.FC<CharacterCardProps> = ({ character }) => {
           onChange={handleCheckboxChange}
         />
       </span>
-      <img
+      <Image
         src={character.image}
         alt={character.name}
-        onClick={() => handleCharacterClick(character)}
+        onClick={handleCharacterClick}
         className={styles.character_image}
       />
       <div className={styles.character_info}>

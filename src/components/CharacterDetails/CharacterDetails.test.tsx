@@ -1,12 +1,38 @@
-import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import CharacterDetails from './CharacterDetails';
-import character from '../../__ tests __/mock_data';
+import { useGetCharacterByIdQuery } from '../../store/api/api';
+import character from '@/src/__ tests __/mock_data';
+
+import { useRouter } from 'next/router';
+
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}));
+
+jest.mock('../../store/api/api', () => ({
+  useGetCharacterByIdQuery: jest.fn(),
+}));
 
 describe('CharacterDetails', () => {
+  const mockPush = jest.fn();
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    (useRouter as jest.Mock).mockReturnValue({
+      query: {},
+      push: mockPush,
+    });
+  });
+
   test('renders character image', () => {
-    render(<CharacterDetails character={character} />);
+    (useGetCharacterByIdQuery as jest.Mock).mockReturnValue({
+      data: character,
+      isLoading: false,
+      isError: false,
+    });
+
+    render(<CharacterDetails characterId="1" />);
 
     const image = screen.getByAltText('Character 1');
     expect(image).toBeInTheDocument();
@@ -14,46 +40,120 @@ describe('CharacterDetails', () => {
   });
 
   test('renders character name', () => {
-    render(<CharacterDetails character={character} />);
+    (useGetCharacterByIdQuery as jest.Mock).mockReturnValue({
+      data: character,
+      isLoading: false,
+      isError: false,
+    });
 
-    const name = screen.getByText(/Name:/);
-    expect(name).toBeInTheDocument();
-    expect(screen.getByText('Character 1')).toBeInTheDocument();
+    render(<CharacterDetails characterId="1" />);
+
+    expect(screen.getByText(/Name:/)).toBeInTheDocument();
+    expect(screen.getByText(character.name)).toBeInTheDocument();
   });
 
   test('renders character status', () => {
-    render(<CharacterDetails character={character} />);
+    (useGetCharacterByIdQuery as jest.Mock).mockReturnValue({
+      data: character,
+      isLoading: false,
+      isError: false,
+    });
 
-    const status = screen.getByText(/Status:/);
-    expect(status).toBeInTheDocument();
-    expect(screen.getByText('active')).toBeInTheDocument();
+    render(<CharacterDetails characterId="1" />);
+
+    expect(screen.getByText(/Status:/)).toBeInTheDocument();
+    expect(screen.getByText(character.status)).toBeInTheDocument();
   });
 
   test('renders character species', () => {
-    render(<CharacterDetails character={character} />);
+    (useGetCharacterByIdQuery as jest.Mock).mockReturnValue({
+      data: character,
+      isLoading: false,
+      isError: false,
+    });
 
-    const species = screen.getByText(/Species:/);
-    expect(species).toBeInTheDocument();
-    expect(screen.getByText('species 1')).toBeInTheDocument();
+    render(<CharacterDetails characterId="1" />);
+
+    expect(screen.getByText(/Species:/)).toBeInTheDocument();
+    expect(screen.getByText(character.species)).toBeInTheDocument();
   });
 
   test('renders character gender', () => {
-    render(<CharacterDetails character={character} />);
+    (useGetCharacterByIdQuery as jest.Mock).mockReturnValue({
+      data: character,
+      isLoading: false,
+      isError: false,
+    });
 
-    const gender = screen.getByText(/Gender:/);
-    expect(gender).toBeInTheDocument();
-    expect(screen.getByText('string')).toBeInTheDocument();
+    render(<CharacterDetails characterId="1" />);
+
+    expect(screen.getByText(/Gender:/)).toBeInTheDocument();
+    expect(screen.getByText(character.gender)).toBeInTheDocument();
   });
 
   test('renders character last known location', () => {
-    render(<CharacterDetails character={character} />);
+    (useGetCharacterByIdQuery as jest.Mock).mockReturnValue({
+      data: character,
+      isLoading: false,
+      isError: false,
+    });
 
-    const location = screen.getByText(/Last Known Location:/);
-    expect(location).toBeInTheDocument();
-    expect(screen.getByText('location1')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'location1' })).toHaveAttribute(
-      'href',
-      'location1'
+    render(<CharacterDetails characterId="1" />);
+
+    expect(screen.getByText(/Last Known Location:/)).toBeInTheDocument();
+    const locationLink = screen.getByRole('link', {
+      name: character.location.name,
+    });
+    expect(locationLink).toHaveAttribute('href', character.location.url);
+  });
+
+  test('renders loading state', () => {
+    (useGetCharacterByIdQuery as jest.Mock).mockReturnValue({
+      data: null,
+      isLoading: true,
+      isError: false,
+    });
+
+    render(<CharacterDetails characterId="1" />);
+
+    expect(screen.getByText('Loading...')).toBeInTheDocument();
+  });
+
+  test('renders error state', () => {
+    (useGetCharacterByIdQuery as jest.Mock).mockReturnValue({
+      data: null,
+      isLoading: false,
+      isError: true,
+    });
+
+    render(<CharacterDetails characterId="1" />);
+
+    expect(
+      screen.getByText('Error loading character details.')
+    ).toBeInTheDocument();
+  });
+
+  test('calls closeDetails on button click', () => {
+    (useGetCharacterByIdQuery as jest.Mock).mockReturnValue({
+      data: character,
+      isLoading: false,
+      isError: false,
+    });
+
+    render(<CharacterDetails characterId="1" />);
+
+    const closeButton = screen.getByText('Close');
+    expect(closeButton).toBeInTheDocument();
+
+    closeButton.click();
+
+    expect(mockPush).toHaveBeenCalledWith(
+      {
+        pathname: '/',
+        query: {},
+      },
+      undefined,
+      { shallow: true }
     );
   });
 });
