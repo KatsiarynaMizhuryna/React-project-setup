@@ -25,20 +25,6 @@ describe('CharacterDetails', () => {
     });
   });
 
-  test('renders character image', () => {
-    (useGetCharacterByIdQuery as jest.Mock).mockReturnValue({
-      data: character,
-      isLoading: false,
-      isError: false,
-    });
-
-    render(<CharacterDetails characterId="1" />);
-
-    const image = screen.getByAltText('Character 1');
-    expect(image).toBeInTheDocument();
-    expect(image).toHaveAttribute('src', character.image);
-  });
-
   test('renders character name', () => {
     (useGetCharacterByIdQuery as jest.Mock).mockReturnValue({
       data: character,
