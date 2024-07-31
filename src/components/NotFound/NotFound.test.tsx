@@ -1,7 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import NotFound from './NotFound';
-import notFound from '../../../public/not-found.png';
 
 jest.mock('../../../public/not-found.png', () => '/not-found-image-url');
 
