@@ -32,8 +32,8 @@ const Flyout: React.FC = () => {
 
   return (
     <div className={styles.flyout}>
-      <p>{selectedCards.length} items are selected</p>
       <button onClick={handleUnselectAll}>Unselect all</button>
+      <p>{selectedCards.length} items are selected</p>
       <button onClick={handleDownload}>Download</button>
     </div>
   );
