@@ -12,7 +12,6 @@ import {
   useGetAllcharactersQuery,
   useLazyGetCharactersByNameQuery,
 } from '../../store/api/api';
-import NotFound from '../NotFound/NotFound';
 
 jest.mock('../../store/api/api', () => ({
   useGetAllcharactersQuery: jest.fn(),

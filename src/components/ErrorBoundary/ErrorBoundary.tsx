@@ -1,5 +1,5 @@
 import { Component, ReactNode } from 'react';
-import errorImg from '../../assets/error.png';
+import errorImg from '../../../public/error.png';
 import styles from './ErrorBoundary.module.css';
 import Image from 'next/image';
 
