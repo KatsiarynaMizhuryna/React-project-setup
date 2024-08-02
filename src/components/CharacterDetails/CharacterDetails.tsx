@@ -1,7 +1,8 @@
+'use client';
 import Image from 'next/image';
 import { useGetCharacterByIdQuery } from '../../store/api/api';
 import styles from './CharacterDetails.module.css';
-import { useRouter } from 'next/router';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface CharacterDetailsProps {
   characterId: string;
@@ -9,6 +10,7 @@ interface CharacterDetailsProps {
 
 const CharacterDetails: React.FC<CharacterDetailsProps> = ({ characterId }) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const {
     data: character,
     isLoading,
@@ -24,15 +26,9 @@ const CharacterDetails: React.FC<CharacterDetailsProps> = ({ characterId }) => {
   }
 
   const closeDetails = () => {
-    const { details: _, ...restQuery } = router.query;
-    router.push(
-      {
-        pathname: '/',
-        query: { ...restQuery },
-      },
-      undefined,
-      { shallow: true }
-    );
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+    newSearchParams.delete('details');
+    router.push(`/?${newSearchParams.toString()}`, { scroll: true });
   };
 
   return (

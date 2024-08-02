@@ -1,3 +1,4 @@
+'use client';
 import CharacterCard from '../CharacterCard/CharacterCard';
 import NotFound from '../NotFound/NotFound';
 import Pagination from '../Pagination/Pagination';
@@ -7,8 +8,8 @@ import {
   useGetAllcharactersQuery,
   useLazyGetCharactersByNameQuery,
 } from '../../store/api/api';
-import { useRouter } from 'next/router';
 import CharacterDetails from '../CharacterDetails/CharacterDetails';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface ResultsProps {
   page: number;
@@ -22,6 +23,7 @@ const Results: React.FC<ResultsProps> = ({
   onPageChange,
 }) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { isLoading, isError, data, isFetching } =
     useGetAllcharactersQuery(page);
   const [
@@ -41,10 +43,10 @@ const Results: React.FC<ResultsProps> = ({
 
   const handlePageChange = (newPage: number) => {
     onPageChange(newPage);
-    router.push(`/?page=${newPage}`, undefined, { shallow: true });
+    router.push(`/?page=${newPage}`, { scroll: true });
   };
 
-  const selectedCharacterId = router.query.details as string | undefined;
+  const selectedCharacterId = searchParams.get('details');
 
   return (
     <div className={styles.results_wrapper}>
