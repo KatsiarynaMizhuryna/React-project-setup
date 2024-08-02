@@ -24,7 +24,7 @@ const CharacterDetails: React.FC<CharacterDetailsProps> = ({ characterId }) => {
   }
 
   const closeDetails = () => {
-    const { details, ...restQuery } = router.query;
+    const { details: _, ...restQuery } = router.query;
     router.push(
       {
         pathname: '/',

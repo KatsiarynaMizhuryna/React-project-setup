@@ -17,7 +17,8 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
     "jsx": "preserve",
-    "composite": true,
+
+    "declaration": false,
 
     "paths": {
       "@/*": ["./*"]

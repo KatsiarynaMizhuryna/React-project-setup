@@ -66,8 +66,10 @@ const Results: React.FC<ResultsProps> = ({
           </div>
           <div className={styles.search_results_block}>
             {isCharacterLoading && <p>Loading characters by name...</p>}
+
             {isCharacterError && <NotFound />}
-            {searchTerm &&
+            {!isCharacterError &&
+              searchTerm &&
               characterByName?.results.map((character) => (
                 <CharacterCard key={character.id} character={character} />
               ))}
