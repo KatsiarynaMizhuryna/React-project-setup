@@ -1,13 +1,14 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import CharacterDetails from './CharacterDetails';
 import { useGetCharacterByIdQuery } from '../../store/api/api';
-import character from '@/src/__ tests __/mock_data';
+import character from '../../__ tests __/mock_data';
 
-import { useRouter } from 'next/router';
+import { useRouter, useSearchParams } from 'next/navigation';
 
-jest.mock('next/router', () => ({
+jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
+  useSearchParams: jest.fn(),
 }));
 
 jest.mock('../../store/api/api', () => ({
@@ -16,13 +17,16 @@ jest.mock('../../store/api/api', () => ({
 
 describe('CharacterDetails', () => {
   const mockPush = jest.fn();
+  const mockSearchParams = new URLSearchParams();
+
   beforeEach(() => {
     jest.clearAllMocks();
 
     (useRouter as jest.Mock).mockReturnValue({
-      query: {},
       push: mockPush,
     });
+
+    (useSearchParams as jest.Mock).mockReturnValue(mockSearchParams);
   });
 
   test('renders character name', () => {
@@ -131,15 +135,8 @@ describe('CharacterDetails', () => {
     const closeButton = screen.getByText('Close');
     expect(closeButton).toBeInTheDocument();
 
-    closeButton.click();
+    fireEvent.click(closeButton);
 
-    expect(mockPush).toHaveBeenCalledWith(
-      {
-        pathname: '/',
-        query: {},
-      },
-      undefined,
-      { shallow: true }
-    );
+    expect(mockPush).toHaveBeenCalledWith(`/?`, { scroll: true });
   });
 });
