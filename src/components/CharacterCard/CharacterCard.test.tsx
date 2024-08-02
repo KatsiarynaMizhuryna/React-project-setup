@@ -4,14 +4,14 @@ import '@testing-library/jest-dom';
 import { act, render, screen, fireEvent } from '@testing-library/react';
 import { useActions } from '../../hooks/actions';
 import { UseAppSelector } from '../../hooks/redux';
-import { useRouter } from 'next/router';
+import { useRouter, useSearchParams } from 'next/navigation';
 import CharacterCard from './CharacterCard';
-import { BrowserRouter } from 'react-router-dom';
 
 jest.mock('../../hooks/actions');
 jest.mock('../../hooks/redux');
-jest.mock('next/router', () => ({
+jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
+  useSearchParams: jest.fn(),
 }));
 
 describe('CharacterCard', () => {
@@ -20,6 +20,7 @@ describe('CharacterCard', () => {
   const mockUseActions = useActions as jest.Mock;
   const mockUseAppSelector = UseAppSelector as jest.Mock;
   const mockRouterPush = jest.fn();
+  const mockSearchParams = new URLSearchParams();
 
   beforeEach(() => {
     mockUseActions.mockReturnValue({
@@ -28,9 +29,9 @@ describe('CharacterCard', () => {
     });
     mockUseAppSelector.mockReturnValue({ selected: [] });
     (useRouter as jest.Mock).mockReturnValue({
-      query: {},
       push: mockRouterPush,
     });
+    (useSearchParams as jest.Mock).mockReturnValue(mockSearchParams);
   });
 
   afterEach(() => {
@@ -38,23 +39,15 @@ describe('CharacterCard', () => {
   });
 
   test('renders character information', () => {
-    render(
-      <BrowserRouter>
-        <CharacterCard character={character} />
-      </BrowserRouter>
-    );
+    render(<CharacterCard character={character} />);
 
     expect(screen.getByRole('checkbox')).toBeInTheDocument();
-    expect(screen.getByAltText('Character 1')).toBeInTheDocument();
-    expect(screen.getByText('Character 1')).toBeInTheDocument();
+    expect(screen.getByAltText(character.name)).toBeInTheDocument();
+    expect(screen.getByText(character.name)).toBeInTheDocument();
   });
 
   test('calls select when the checkbox is checked', async () => {
-    render(
-      <BrowserRouter>
-        <CharacterCard character={character} />
-      </BrowserRouter>
-    );
+    render(<CharacterCard character={character} />);
 
     const checkbox = screen.getByRole('checkbox');
     await act(async () => {
@@ -68,11 +61,7 @@ describe('CharacterCard', () => {
   test('calls unselect when the checkbox is unchecked', async () => {
     mockUseAppSelector.mockReturnValue({ selected: [character] });
 
-    render(
-      <BrowserRouter>
-        <CharacterCard character={character} />
-      </BrowserRouter>
-    );
+    render(<CharacterCard character={character} />);
 
     const checkbox = screen.getByRole('checkbox');
     await act(async () => {
@@ -86,41 +75,27 @@ describe('CharacterCard', () => {
   test('checkbox is checked when the character is selected', () => {
     mockUseAppSelector.mockReturnValue({ selected: [character] });
 
-    render(
-      <BrowserRouter>
-        <CharacterCard character={character} />
-      </BrowserRouter>
-    );
+    render(<CharacterCard character={character} />);
 
     const checkbox = screen.getByRole('checkbox');
     expect(checkbox).toBeChecked();
   });
 
   test('checkbox is unchecked when the character is not selected', () => {
-    render(
-      <BrowserRouter>
-        <CharacterCard character={character} />
-      </BrowserRouter>
-    );
+    render(<CharacterCard character={character} />);
 
     const checkbox = screen.getByRole('checkbox');
     expect(checkbox).not.toBeChecked();
   });
 
   test('navigates to character details on image click', () => {
-    render(
-      <BrowserRouter>
-        <CharacterCard character={character} />
-      </BrowserRouter>
-    );
+    render(<CharacterCard character={character} />);
 
-    const image = screen.getByAltText('Character 1');
+    const image = screen.getByAltText(character.name);
     fireEvent.click(image);
 
-    expect(mockRouterPush).toHaveBeenCalledWith(
-      `/?page=1&details=${character.id}`,
-      undefined,
-      { shallow: true }
-    );
+    expect(mockRouterPush).toHaveBeenCalledWith(`/?details=${character.id}`, {
+      scroll: true,
+    });
   });
 });
