@@ -6,12 +6,13 @@ import {
   waitFor,
   act,
 } from '@testing-library/react';
-import { useRouter } from 'next/router';
 import Results from './Results';
 import {
   useGetAllcharactersQuery,
   useLazyGetCharactersByNameQuery,
 } from '../../store/api/api';
+
+import { useRouter, useSearchParams } from 'next/navigation';
 
 jest.mock('../../store/api/api', () => ({
   useGetAllcharactersQuery: jest.fn(),
@@ -22,15 +23,19 @@ const mockUseGetAllcharactersQuery = useGetAllcharactersQuery as jest.Mock;
 const mockUseLazyGetCharactersByNameQuery =
   useLazyGetCharactersByNameQuery as jest.Mock;
 
-jest.mock('next/router', () => ({
+jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
+  useSearchParams: jest.fn(),
 }));
 
 const mockPush = jest.fn();
+const mockSearchParams = new URLSearchParams();
+
 (useRouter as jest.Mock).mockReturnValue({
-  query: {},
   push: mockPush,
 });
+
+(useSearchParams as jest.Mock).mockReturnValue(mockSearchParams);
 
 describe('Results component', () => {
   const onPageChange = jest.fn();
