@@ -54,28 +54,30 @@ const Results: React.FC<ResultsProps> = ({
         totalPages={data?.info.pages || 1}
         onPageChange={handlePageChange}
       />
-      <div className={styles.results_block}>
-        {isLoading && <p>Loading...</p>}
-        {isError && <p>Error fetching data.</p>}
-        <div className={styles.results_section}>
-          {!searchTerm &&
-            data?.results.map((character) => (
-              <CharacterCard key={character.id} character={character} />
-            ))}
-        </div>
-        {selectedCharacterId && (
-          <div className={styles.details_section}>
-            <CharacterDetails characterId={selectedCharacterId} />
+      <div className={styles.search_results_block}>
+        <div className={styles.results_block}>
+          {isLoading && <p>Loading...</p>}
+          {isError && <p>Error fetching data.</p>}
+          <div className={styles.results_section}>
+            {!searchTerm &&
+              data?.results.map((character) => (
+                <CharacterCard key={character.id} character={character} />
+              ))}
           </div>
-        )}
-      </div>
-      <div className={styles.results_block}>
-        {isCharacterLoading && <p>Loading characters by name...</p>}
-        {isCharacterError && <NotFound />}
-        {searchTerm &&
-          characterByName?.results.map((character) => (
-            <CharacterCard key={character.id} character={character} />
-          ))}
+          <div className={styles.search_results_block}>
+            {isCharacterLoading && <p>Loading characters by name...</p>}
+            {isCharacterError && <NotFound />}
+            {searchTerm &&
+              characterByName?.results.map((character) => (
+                <CharacterCard key={character.id} character={character} />
+              ))}
+          </div>
+          {selectedCharacterId && (
+            <div>
+              <CharacterDetails characterId={selectedCharacterId} />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

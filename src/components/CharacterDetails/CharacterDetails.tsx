@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { Character } from '../../models';
 import { useGetCharacterByIdQuery } from '../../store/api/api';
 import styles from './CharacterDetails.module.css';
 import { useRouter } from 'next/router';
