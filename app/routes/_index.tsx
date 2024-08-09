@@ -47,7 +47,7 @@ export default function Index() {
   };
 
   return (
-    <div className="font-sans p-4">
+    <div>
       <Search
         onSearch={handleSearch}
         initialSearch={searchParams.get('search') || ''}
